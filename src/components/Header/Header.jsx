@@ -1,5 +1,6 @@
 import logo from "../../assets/Logo.svg";
-import avatar from "../../assets/Avatar.svg";
+import avatar from "../../assets/avatar.svg";
+import { getWeather } from "../../utils/weatherApi";
 import "./Header.css";
 
 function Header({ handleOpenAddClothingModal }) {
@@ -16,7 +17,7 @@ function Header({ handleOpenAddClothingModal }) {
         <time className="header__datetime" dateTime="now">
           {dateStr}
         </time>
-        , New York
+        {getWeather.city}
       </p>
       <button
         className="header__add-clothes-btn"

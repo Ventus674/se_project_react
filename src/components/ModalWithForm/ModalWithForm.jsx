@@ -16,12 +16,11 @@ function ModalWithForm({ isOpen, onClose, children, title, buttonText, name }) {
           onClick={onClose}
         ></button>
         <form className="modal__form" name={name}>
-          {/* addabove into form onSubmit={handleSubmit} */}
           {children}
+          <button className="modal__submit-btn" type="submit">
+            {buttonText}
+          </button>
         </form>
-        <button className="modal__submit-btn" type="submit">
-          {buttonText}
-        </button>
       </div>
     </div>
   );

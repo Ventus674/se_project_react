@@ -2,7 +2,6 @@ import "./ItemCard.css";
 
 function ItemCard({ data, onCardClick }) {
   function handleOpenCard() {
-    console.log("[ItemCard] clicked:", data);
     onCardClick(data);
   }
 
