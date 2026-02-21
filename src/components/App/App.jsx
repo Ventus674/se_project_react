@@ -14,6 +14,7 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi.js";
 
 function App() {
   const [clothingItems, setClothingItems] = useState(defaultClothingItems);
+  const [weatherData, setWeatherData] = useState(null);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState("");
 
@@ -28,6 +29,8 @@ function App() {
     setActiveModal("");
   }
 
+  <header city={getWeather?.city} />;
+
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
@@ -35,13 +38,14 @@ function App() {
         setWeatherData(filteredData);
       })
       .catch(console.error);
-  });
+  }, []);
 
   return (
     <div className="app">
       <Header handleOpenAddClothingModal={handleOpenAddClothingModal} />
       <Main
         clothingItems={clothingItems}
+        weatherData={weatherData}
         handleOpenItemCardModal={handleOpenItemCardModal}
       />
       <Footer />
@@ -65,6 +69,7 @@ function App() {
               className="modal__input"
               id="add-garment-name"
               type="text"
+              required
               placeholder="Name"
             />
           </label>
@@ -75,6 +80,7 @@ function App() {
               className="modal__input"
               id="add-garment-url"
               type="url"
+              required
               placeholder="Image URL"
             />
           </label>
@@ -89,7 +95,7 @@ function App() {
               name="temp"
               value="Hot"
             />
-            <label className="modal__label" for="Hot">
+            <label className="modal__label" htmlFor="Hot">
               Hot
             </label>
           </div>
@@ -101,7 +107,7 @@ function App() {
               name="temp"
               value="Warm"
             />
-            <label className="modal__label" for="Warm">
+            <label className="modal__label" htmlFor="Warm">
               Warm
             </label>
           </div>
@@ -113,7 +119,7 @@ function App() {
               name="temp"
               value="Cold"
             />
-            <label className="modal__label" for="Cold">
+            <label className="modal__label" htmlFor="Cold">
               Cold
             </label>
           </div>

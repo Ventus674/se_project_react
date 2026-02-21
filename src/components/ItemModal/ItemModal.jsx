@@ -1,4 +1,4 @@
-import "./itemModal.css";
+import "./ItemModal.css";
 
 function ItemCardModal({ isOpen, card, onClose }) {
   if (!card) return null;
