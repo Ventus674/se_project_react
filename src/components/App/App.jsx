@@ -29,8 +29,6 @@ function App() {
     setActiveModal("");
   }
 
-  <header city={getWeather?.city} />;
-
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
@@ -46,7 +44,7 @@ function App() {
       <Main
         clothingItems={clothingItems}
         weatherData={weatherData}
-        handleOpenItemCardModal={handleOpenItemCardModal}
+        handleOpenItemModal={handleOpenItemCardModal}
       />
       <Footer />
 
