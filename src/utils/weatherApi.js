@@ -1,11 +1,5 @@
 import { APIkey, coordinates } from "./constants";
-
-function _handleServerResponse(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Error: ${res.status}`);
-}
+import { _handleServerResponse } from "./api";
 
 export function getWeatherData() {
   return fetch(

@@ -1,6 +1,6 @@
 import "./ItemModal.css";
 
-function ItemCardModal({ isOpen, card, onClose }) {
+function ItemCardModal({ isOpen, card, onClose, handleOpenDeleteModal }) {
   if (!card) return null;
 
   return (
@@ -13,7 +13,17 @@ function ItemCardModal({ isOpen, card, onClose }) {
           onClick={onClose}
         ></button>
         <div>
-          <h2 className="modal__text">{card.name}</h2>
+          <div className="modal__description">
+            <h2 className="modal__text">{card.name}</h2>
+            <button
+              type="button"
+              className="modal__open-delete-btn"
+              onClick={() => handleOpenDeleteModal(card)}
+            >
+              Delete Item
+            </button>
+          </div>
+
           <p className="modal__text">Weather: {card.weather}</p>
         </div>
       </div>

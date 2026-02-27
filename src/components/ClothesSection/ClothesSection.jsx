@@ -2,7 +2,11 @@ import "./ClothesSection.css";
 
 import ItemCard from "../ItemCard/ItemCard";
 
-function ClothesSection({ clothingItems, handleOpenAddClothingModal }) {
+function ClothesSection({
+  clothingItems,
+  handleOpenAddClothingModal,
+  onCardClick,
+}) {
   return (
     <section className="clothes-section">
       <div className="clothes-section__header">
@@ -16,7 +20,9 @@ function ClothesSection({ clothingItems, handleOpenAddClothingModal }) {
       </div>
       <ul className="clothes-section__itemcard-list">
         {clothingItems.map((item) => {
-          return <ItemCard key={item._id} data={item} />;
+          return (
+            <ItemCard key={item._id} data={item} onCardClick={onCardClick} />
+          );
         })}
       </ul>
     </section>
