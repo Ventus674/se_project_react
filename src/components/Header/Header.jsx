@@ -26,6 +26,7 @@ function Header({ handleOpenAddClothingModal, weatherData }) {
         </p>
       </div>
       <div className="header_side_right">
+        <ToggleSwitch onToggle={(unit) => console.log("Switched to", unit)} />
         <button
           className="header__add-clothes-btn"
           onClick={handleOpenAddClothingModal}
