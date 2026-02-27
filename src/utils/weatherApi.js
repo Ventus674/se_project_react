@@ -1,35 +1,72 @@
-export const getWeather = ({ latitude, longitude }, APIkey) => {
+import { APIkey, coordinates } from "./constants";
+
+function _handleServerResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error: ${res.status}`);
+}
+
+export function getWeatherData() {
   return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`,
-  ).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Error: ${res.status}`);
-    }
-  });
-};
+    `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.latitude}&lon=${coordinates.longitude}&units=imperial&appid=${APIkey}`,
+  )
+    .then(_handleServerResponse)
+    .then((data) => {
+      return parseWeatherData(data);
+    });
+}
 
-export const filterWeatherData = (data) => {
-  const result = {};
-  result.city = data.name;
-  result.temp = { F: data.main.temp };
-  result.type = getWeatherType(result.temp.F);
-  result.condition = data.weather[0].main.toLowerCase();
-  result.isDay = isDay(data.sys, Date.now());
-  return result;
-};
+function parseWeatherData(data) {
+  const parsedData = { temp: {} };
+  const fahrenheit = data.main.temp;
+  const celsius = ((fahrenheit - 32) * 5) / 9;
 
-const isDay = ({ sunrise, sunset }, now) => {
-  return sunrise * 1000 < now && now < sunset * 1000;
-};
+  parsedData.city = data.name;
+  parsedData.temp.F = Math.round(fahrenheit);
+  parsedData.temp.C = Math.round(celsius);
+  parsedData.tempCondition = getWeatherTempCondition(parsedData.temp.F);
+  parsedData.skyCondition = getWeatherSkyCondition(data.weather[0].id);
+  parsedData.period = isDayOrNight(data);
+  return parsedData;
+}
 
-const getWeatherType = (temperature) => {
-  if (temperature > 86) {
+function getWeatherTempCondition(temp) {
+  if (temp >= 86) {
     return "hot";
-  } else if (temperature >= 66 && temperature < 86) {
+  } else if (temp >= 66) {
     return "warm";
   } else {
     return "cold";
   }
-};
+}
+
+function getWeatherSkyCondition(id) {
+  if (id >= 200 && id < 300) {
+    return "storm";
+  } else if (id >= 300 && id < 600) {
+    return "rain";
+  } else if (id >= 600 && id < 700) {
+    return "snow";
+  } else if (id == 741) {
+    return "fog";
+  } else if (id == 800) {
+    return "clear";
+  } else if (id > 800 && id < 900) {
+    return "cloudy";
+  } else {
+    return "default";
+  }
+}
+
+function isDayOrNight(data) {
+  const sunrise = data.sys.sunrise;
+  const sunset = data.sys.sunset;
+  const now = Math.floor(Date.now() / 1000);
+  const isDaytime = now >= sunrise && now < sunset;
+  if (isDaytime) {
+    return "day";
+  } else {
+    return "night";
+  }
+}

@@ -1,0 +1,103 @@
+.toggle-switch {
+  width: 56px;
+  height: 28px;
+  border: 2px solid #7e7e7e;
+  border-radius: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 0;
+  background-color: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.toggle-switch:hover {
+  border-color: black;
+}
+
+.toggle-switch__checkbox {
+  visibility: hidden;
+  position: absolute;
+}
+
+.toggle-switch__circle {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: black;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.toggle-switch__checkbox:checked + .toggle-switch__circle {
+  transform: translateX(27.75px);
+}
+
+.toggle-switch:hover
+  .toggle-switch__checkbox:not(:checked)
+  + .toggle-switch__circle {
+  transform: translateX(1.5px);
+}
+
+.toggle-switch:hover .toggle-switch__checkbox:checked + .toggle-switch__circle {
+  transform: translateX(26.25px);
+}
+
+.toggle-switch__value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7e7e7e;
+  font-family:
+    Cabinet Grotesk,
+    sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  z-index: 2;
+}
+
+.toggle-switch__value_left,
+.toggle-switch__value_right {
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.toggle-switch__checkbox:not(:checked) ~ .toggle-switch__value_left {
+  color: white;
+}
+
+.toggle-switch:hover
+  .toggle-switch__checkbox:not(:checked)
+  ~ .toggle-switch__value_left {
+  transform: translateX(1.5px);
+}
+
+.toggle-switch:hover
+  .toggle-switch__checkbox:not(:checked)
+  ~ .toggle-switch__value_right {
+  color: black;
+}
+
+.toggle-switch__checkbox:checked ~ .toggle-switch__value_right {
+  color: white;
+}
+
+.toggle-switch:hover
+  .toggle-switch__checkbox:checked
+  ~ .toggle-switch__value_right {
+  transform: translateX(-1.5px);
+}
+
+.toggle-switch:hover
+  .toggle-switch__checkbox:checked
+  ~ .toggle-switch__value_left {
+  color: black;
+}
