@@ -1,5 +1,5 @@
 import logo from "../../assets/Logo.svg";
-import avatar from "../../assets/Avatar.svg";
+import avatar from "../../assets/avatar.svg";
 import "./Header.css";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
@@ -26,7 +26,6 @@ function Header({ handleOpenAddClothingModal, weatherData }) {
         </p>
       </div>
       <div className="header_side_right">
-        <ToggleSwitch onToggle={(unit) => console.log("Switched to", unit)} />
         <button
           className="header__add-clothes-btn"
           onClick={handleOpenAddClothingModal}
