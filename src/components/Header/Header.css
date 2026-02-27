@@ -3,7 +3,18 @@
   max-width: 1360px;
   align-self: center;
   align-items: flex-end;
+  justify-content: space-between;
 }
+
+.header_side_left {
+  display: flex;
+}
+
+.header_side_right {
+  display: flex;
+  align-items: center;
+}
+
 .header__logo {
   margin-right: 24px;
 }
@@ -18,8 +29,9 @@
   font-size: 20px;
   line-height: 24px;
 }
+
 .header__add-clothes-btn {
-  margin: 0 0 10px auto;
+  margin: 0 0 0 20px;
   padding: 0;
   font-family:
     Cabinet Grotesk,
@@ -31,8 +43,13 @@
   background-color: transparent;
   cursor: pointer;
 }
+
+.header__add-clothes-btn:hover {
+  transform: scale(1.03);
+}
+
 .header__username {
-  margin: 0 0 10px 20px;
+  margin: 0 0 0 20px;
   font-family:
     Cabinet Grotesk,
     sans-serif;
@@ -40,6 +57,14 @@
   font-size: 20px;
   line-height: 24px;
 }
+
 .header__avatar {
-  margin-left: 88px;
+  margin-left: 12px;
+}
+
+.header__link {
+  display: flex;
+  text-decoration: none;
+  color: black;
+  align-items: center;
 }
