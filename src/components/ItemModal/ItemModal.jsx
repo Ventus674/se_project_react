@@ -17,7 +17,7 @@ function ItemCardModal({ isOpen, card, onClose, handleOpenDeleteModal }) {
             <h2 className="modal__text">{card.name}</h2>
             <button
               type="button"
-              className="modal__delete-btn"
+              className="modal__open-delete-btn"
               onClick={() => handleOpenDeleteModal(card)}
             >
               Delete Item
