@@ -1,11 +1,11 @@
 import { APIkey, coordinates } from "./constants";
-import { _handleServerResponse } from "./api";
+import { handleServerResponse } from "./api";
 
 export function getWeatherData() {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.latitude}&lon=${coordinates.longitude}&units=imperial&appid=${APIkey}`,
   )
-    .then(_handleServerResponse)
+    .then(handleServerResponse)
     .then((data) => {
       return parseWeatherData(data);
     });

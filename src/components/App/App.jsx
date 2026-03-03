@@ -102,7 +102,11 @@ function App() {
           <Route
             path="/"
             element={
-              <Main clothingItems={clothingItems} weatherData={weatherData} />
+              <Main
+                clothingItems={clothingItems}
+                weatherData={weatherData}
+                handleOpenItemModal={handleOpenItemModal}
+              />
             }
           ></Route>
           <Route
@@ -111,6 +115,7 @@ function App() {
               <Profile
                 clothingItems={clothingItems}
                 handleOpenAddClothingModal={handleOpenAddClothingModal}
+                handleOpenItemModal={handleOpenItemModal}
               />
             }
           ></Route>

@@ -1,6 +1,6 @@
 const baseUrl = "http://localhost:3001";
 
-function _handleServerResponse(res) {
+function handleServerResponse(res) {
   if (res.ok) {
     return res.json();
   }
@@ -8,7 +8,7 @@ function _handleServerResponse(res) {
 }
 
 function getItems() {
-  return fetch(`${baseUrl}/items`).then(_handleServerResponse);
+  return fetch(`${baseUrl}/items`).then(handleServerResponse);
 }
 
 function addNewItem({ name, imageUrl, weather }) {
@@ -22,7 +22,7 @@ function addNewItem({ name, imageUrl, weather }) {
       imageUrl,
       weather,
     }),
-  }).then(_handleServerResponse);
+  }).then(handleServerResponse);
 }
 
 function deleteItem(id) {
@@ -31,7 +31,7 @@ function deleteItem(id) {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(_handleServerResponse);
+  }).then(handleServerResponse);
 }
 
-export { getItems, addNewItem, deleteItem, _handleServerResponse };
+export { getItems, addNewItem, deleteItem, handleServerResponse };
