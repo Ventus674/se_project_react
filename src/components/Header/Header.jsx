@@ -3,13 +3,22 @@ import avatar from "../../assets/avatar.svg";
 import "./Header.css";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function Header({ handleOpenAddClothingModal, weatherData }) {
+function Header({
+  handleOpenAddClothingModal,
+  weatherData,
+  onLoginClick,
+  onRegisterClick,
+}) {
   const now = new Date();
   const dateStr = now.toLocaleDateString("default", {
     month: "long",
     day: "numeric",
   });
+
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <header className="header">
@@ -41,6 +50,35 @@ function Header({ handleOpenAddClothingModal, weatherData }) {
             alt="Terrence Tegegne profile picture"
           />
         </Link>
+        {!currentUser ? (
+          <>
+            <button onClick={onLoginClick} className="header__auth-btn">
+              Login
+            </button>
+            <button onClick={onRegisterClick} className="header__auth-btn">
+              Sign Up
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/profile" className="header__link">
+              <div className="header__user-container">
+                <p className="header__username">{currentUser.name}</p>
+                {currentUser.avatar ? (
+                  <img
+                    src={currentUser.avatar}
+                    alt={currentUser.name}
+                    className="header__avatar"
+                  />
+                ) : (
+                  <div className="header__avatar-placeholder">
+                    {userInitial}
+                  </div>
+                )}
+              </div>
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );
