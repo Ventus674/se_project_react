@@ -3,6 +3,11 @@ const coordinates = {
   longitude: 116.62,
 };
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://api.CaliberWTWR.minecraftnoob.com"
+    : "http://localhost:3001";
+
 const APIkey = "9a47480666c6576602cbe5c7243a37e4";
 
 const weatherOptions = {
@@ -68,4 +73,4 @@ const weatherOptions = {
   },
 };
 
-export { weatherOptions, coordinates, APIkey };
+export { weatherOptions, coordinates, APIkey, BASE_URL };

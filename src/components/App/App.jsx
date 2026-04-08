@@ -1,5 +1,5 @@
-import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -13,6 +13,11 @@ import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 import { addNewItem, getItems, deleteItem } from "../../utils/api.js";
 import DeleteModal from "../DeleteModal/DeleteModal.jsx";
 
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
+
 function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [activeModal, setActiveModal] = useState("");
@@ -25,6 +30,13 @@ function App() {
     period: "day",
   });
   const [currentTempUnit, setCurrentTempUnit] = useState("F");
+
+  const [currentUser, setCurrentUser] = useState(null);
+  const [jwt, setJwt] = useState(localStorage.getItem("jwt") || "");
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("jwt"));
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   function handleOpenAddClothingModal() {
     setActiveModal("add-clothing-modal");
@@ -89,6 +101,83 @@ function App() {
       .catch(console.error);
   }, []);
 
+  const handleUpdateUser = ({ name, avatar }) => {
+    auth
+      .editUser({ name, avatar }, jwt)
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+      })
+      .catch((err) => {
+        console.error("Profile update failed:", err);
+      });
+  };
+
+  useEffect(() => {
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then((userData) => {
+          setCurrentUser(userData);
+          setIsLoggedIn(true);
+        })
+        .catch(() => {
+          localStorage.removeItem("jwt");
+          setJwt("");
+          setCurrentUser(null);
+          setIsLoggedIn(false);
+        });
+    }
+  }, [jwt]);
+
+  const handleRegister = ({ name, avatar, email, password }) => {
+    auth
+      .register({ name, avatar, email, password })
+      .then(() => {
+        setIsRegisterOpen(false);
+        return auth.login({ email, password });
+      })
+      .then((data) => {
+        localStorage.setItem("jwt", data.token);
+        setJwt(data.token);
+        setCurrentUser(data.user);
+        setIsLoggedIn(true);
+      })
+      .catch((err) => {
+        console.error("Registration or login failed:", err);
+      });
+  };
+
+  const handleLogin = ({ email, password }) => {
+    auth
+      .login({ email, password })
+      .then((data) => {
+        localStorage.setItem("jwt", data.token);
+        setJwt(data.token);
+        setCurrentUser(data.user);
+        setIsLoggedIn(true);
+        setIsLoginOpen(false);
+      })
+      .catch((err) => {
+        console.error("Login failed:", err);
+      });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setJwt("");
+    setCurrentUser(null);
+  };
+
+  const switchToLogin = () => {
+    setIsRegisterOpen(false);
+    setIsLoginOpen(true);
+  };
+
+  const switchToRegister = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(true);
+  };
+
   return (
     <CurrentTempUnitContext.Provider
       value={{ currentTempUnit, handleToggleSwitchChange }}
@@ -97,6 +186,9 @@ function App() {
         <Header
           handleOpenAddClothingModal={handleOpenAddClothingModal}
           weatherData={weatherData}
+          onLoginClick={() => setIsLoginOpen(true)}
+          onRegisterClick={() => setIsRegisterOpen(true)}
+          onLogout={handleLogout}
         />
         <Routes>
           <Route
@@ -142,6 +234,26 @@ function App() {
           card={selectedCard}
           onClose={handleCloseModal}
           handleDeleteItem={handleDeleteItem}
+        />
+
+        <LoginModal
+          isOpen={isLoginOpen}
+          onClose={() => setIsLoginOpen(false)}
+          onLogin={handleLogin}
+          switchToRegister={switchToRegister}
+        />
+
+        <RegisterModal
+          isOpen={isRegisterOpen}
+          onClose={() => setIsRegisterOpen(false)}
+          onRegister={handleRegister}
+          switchToLogin={switchToLogin}
+        />
+
+        <EditProfileModal
+          isOpen={isEditProfileOpen}
+          onClose={() => setIsEditProfileOpen(false)}
+          onUpdateUser={handleUpdateUser}
         />
       </div>
     </CurrentTempUnitContext.Provider>
