@@ -24,7 +24,7 @@ export default function RegisterModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister({ email, password, name, avatarUrl });
+    onRegister({ email, password, name, avatar: avatarUrl });
   };
 
   const isFormValid =

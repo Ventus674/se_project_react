@@ -5,7 +5,6 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import ItemModal from "../ItemModal/ItemModal";
-import { defaultClothingItems } from "../../utils/defaultClothing.js";
 import { getWeatherData } from "../../utils/weatherApi";
 import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext.js";
 import Profile from "../Profile/Profile.jsx";
@@ -13,9 +12,11 @@ import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 import { addNewItem, getItems, deleteItem } from "../../utils/api.js";
 import DeleteModal from "../DeleteModal/DeleteModal.jsx";
 
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
+import * as auth from "../../utils/auth";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
 
 function App() {
@@ -47,7 +48,6 @@ function App() {
   }
   function handleCloseModal() {
     setActiveModal("");
-    // console.log(card);
   }
   function handleToggleSwitchChange() {
     setCurrentTempUnit("C");
@@ -58,10 +58,12 @@ function App() {
     }
   }
   function handleAddItemSubmit(inputValues, resetForm) {
-    addNewItem({
+    const token = localStorage.getItem("jwt");
+    addNewItem(token)({
       name: inputValues.name,
       imageUrl: inputValues.imageUrl,
       weather: inputValues.weather,
+      Authorization: `Bearer ${token}`,
     })
       .then((newItem) => {
         setClothingItems([newItem, ...clothingItems]);
@@ -71,13 +73,28 @@ function App() {
       .catch(console.error);
   }
 
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    const request = !isLiked ? api.likeItem : api.unlikeItem;
+
+    request(id, token)
+      .then((res) => {
+        const updatedCard = res.data;
+        setClothingItems((cards) =>
+          cards.map((item) => (item._id === id ? updatedCard : item)),
+        );
+      })
+      .catch((err) => console.log("Like/Unlike failed:", err));
+  };
+
   function handleOpenDeleteModal(card) {
     setActiveModal("delete-modal");
     setSelectedCard(card);
   }
 
   function handleDeleteItem(id) {
-    deleteItem(id)
+    const token = localStorage.getItem("jwt");
+    deleteItem(id, token)
       .then(() => {
         setClothingItems((prev) => prev.filter((item) => item._id !== id));
         handleCloseModal();
@@ -166,6 +183,7 @@ function App() {
     localStorage.removeItem("jwt");
     setJwt("");
     setCurrentUser(null);
+    setIsLoggedIn(false);
   };
 
   const switchToLogin = () => {
@@ -179,84 +197,91 @@ function App() {
   };
 
   return (
-    <CurrentTempUnitContext.Provider
-      value={{ currentTempUnit, handleToggleSwitchChange }}
-    >
-      <div className="app">
-        <Header
-          handleOpenAddClothingModal={handleOpenAddClothingModal}
-          weatherData={weatherData}
-          onLoginClick={() => setIsLoginOpen(true)}
-          onRegisterClick={() => setIsRegisterOpen(true)}
-          onLogout={handleLogout}
-        />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Main
-                clothingItems={clothingItems}
-                weatherData={weatherData}
-                handleOpenItemModal={handleOpenItemModal}
-              />
-            }
-          ></Route>
-          <Route
-            path="/profile"
-            element={
-              <Profile
-                clothingItems={clothingItems}
-                handleOpenAddClothingModal={handleOpenAddClothingModal}
-                handleOpenItemModal={handleOpenItemModal}
-              />
-            }
-          ></Route>
-        </Routes>
+    <CurrentUserContext.Provider value={currentUser}>
+      <CurrentTempUnitContext.Provider
+        value={{ currentTempUnit, handleToggleSwitchChange }}
+      >
+        <div className="app">
+          <Header
+            handleOpenAddClothingModal={handleOpenAddClothingModal}
+            weatherData={weatherData}
+            onLoginClick={() => setIsLoginOpen(true)}
+            onRegisterClick={() => setIsRegisterOpen(true)}
+            onLogout={handleLogout}
+          />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  clothingItems={clothingItems}
+                  weatherData={weatherData}
+                  handleOpenItemModal={handleOpenItemModal}
+                  onCardLike={handleCardLike}
+                />
+              }
+            ></Route>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute loggedIn={!!currentUser}>
+                  <Profile
+                    clothingItems={clothingItems}
+                    handleOpenAddClothingModal={handleOpenAddClothingModal}
+                    handleOpenItemModal={handleOpenItemModal}
+                    onCardLike={handleCardLike}
+                    onLogout={handleLogout}
+                  />
+                </ProtectedRoute>
+              }
+            ></Route>
+          </Routes>
 
-        <Footer />
+          <Footer />
 
-        <ItemModal
-          isOpen={activeModal === "itemCard-modal"}
-          onClose={handleCloseModal}
-          card={selectedCard}
-          handleOpenDeleteModal={handleOpenDeleteModal}
-        />
-        <AddItemModal
-          isOpen={activeModal === "add-clothing-modal"}
-          onClose={handleCloseModal}
-          title="New Garment"
-          buttonText="Add garment"
-          name="add-garment-form"
-          handleAddItemSubmit={handleAddItemSubmit}
-        />
-        <DeleteModal
-          isOpen={activeModal === "delete-modal"}
-          card={selectedCard}
-          onClose={handleCloseModal}
-          handleDeleteItem={handleDeleteItem}
-        />
+          <ItemModal
+            isOpen={activeModal === "itemCard-modal"}
+            onClose={handleCloseModal}
+            card={selectedCard}
+            handleOpenDeleteModal={handleOpenDeleteModal}
+          />
+          <AddItemModal
+            isOpen={activeModal === "add-clothing-modal"}
+            onClose={handleCloseModal}
+            title="New Garment"
+            buttonText="Add garment"
+            name="add-garment-form"
+            handleAddItemSubmit={handleAddItemSubmit}
+          />
+          <DeleteModal
+            isOpen={activeModal === "delete-modal"}
+            card={selectedCard}
+            onClose={handleCloseModal}
+            handleDeleteItem={handleDeleteItem}
+          />
 
-        <LoginModal
-          isOpen={isLoginOpen}
-          onClose={() => setIsLoginOpen(false)}
-          onLogin={handleLogin}
-          switchToRegister={switchToRegister}
-        />
+          <LoginModal
+            isOpen={isLoginOpen}
+            onClose={() => setIsLoginOpen(false)}
+            onLogin={handleLogin}
+            switchToRegister={switchToRegister}
+          />
 
-        <RegisterModal
-          isOpen={isRegisterOpen}
-          onClose={() => setIsRegisterOpen(false)}
-          onRegister={handleRegister}
-          switchToLogin={switchToLogin}
-        />
+          <RegisterModal
+            isOpen={isRegisterOpen}
+            onClose={() => setIsRegisterOpen(false)}
+            onRegister={handleRegister}
+            switchToLogin={switchToLogin}
+          />
 
-        <EditProfileModal
-          isOpen={isEditProfileOpen}
-          onClose={() => setIsEditProfileOpen(false)}
-          onUpdateUser={handleUpdateUser}
-        />
-      </div>
-    </CurrentTempUnitContext.Provider>
+          <EditProfileModal
+            isOpen={isEditProfileOpen}
+            onClose={() => setIsEditProfileOpen(false)}
+            onUpdateUser={handleUpdateUser}
+          />
+        </div>
+      </CurrentTempUnitContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

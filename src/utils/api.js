@@ -25,13 +25,23 @@ function addNewItem({ name, imageUrl, weather }) {
   }).then(handleServerResponse);
 }
 
-function deleteItem(id) {
+function likeItem(id, token) {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(handleServerResponse);
+}
+
+function deleteItem(id, token) {
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   }).then(handleServerResponse);
 }
 
-export { getItems, addNewItem, deleteItem, handleServerResponse };
+export { getItems, addNewItem, deleteItem, handleServerResponse, likeItem };

@@ -42,14 +42,7 @@ function Header({
         >
           + Add Clothes
         </button>
-        <Link className="header__link" to="/profile">
-          <p className="header__username">Terrence Tegegne</p>
-          <img
-            className="header__avatar"
-            src={avatar}
-            alt="Terrence Tegegne profile picture"
-          />
-        </Link>
+
         {!currentUser ? (
           <>
             <button onClick={onLoginClick} className="header__auth-btn">
