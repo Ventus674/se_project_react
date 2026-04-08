@@ -1,5 +1,5 @@
 import "./ClothesSection.css";
-
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 import ItemCard from "../ItemCard/ItemCard";
 
 function ClothesSection({
@@ -7,6 +7,12 @@ function ClothesSection({
   handleOpenAddClothingModal,
   onCardClick,
 }) {
+  const currentUser = useContext(CurrentUserContext);
+
+  const userItems = clothingItems.filter(
+    (item) => item.owner === currentUser?._id,
+  );
+
   return (
     <section className="clothes-section">
       <div className="clothes-section__header">
@@ -19,7 +25,7 @@ function ClothesSection({
         </button>
       </div>
       <ul className="clothes-section__itemcard-list">
-        {clothingItems.map((item) => {
+        {userItems.map((item) => {
           return (
             <ItemCard key={item._id} data={item} onCardClick={onCardClick} />
           );

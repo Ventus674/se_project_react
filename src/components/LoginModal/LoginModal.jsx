@@ -30,6 +30,7 @@ export default function LoginModal({
       title="Log In"
       name="login"
       isOpen={isOpen}
+      handleSubmit={handleSubmit}
       onClose={onClose}
       onSubmit={handleSubmit}
       buttonText="Log In"

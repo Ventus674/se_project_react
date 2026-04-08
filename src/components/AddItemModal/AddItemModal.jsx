@@ -3,9 +3,6 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 
 function AddItemModal({ isOpen, onClose, handleAddItemSubmit }) {
-  // onAddItem refers to the submit handler declared in App.jsx
-  // const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
-  //   // ...
   const { values, handleChange, resetForm } = useForm({
     name: "",
     weather: "hot",
