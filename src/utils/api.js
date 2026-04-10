@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3001";
+import { BASE_URL } from "../utils/constants";
 
 function handleServerResponse(res) {
   if (res.ok) {
@@ -8,11 +8,11 @@ function handleServerResponse(res) {
 }
 
 function getItems() {
-  return fetch(`${baseUrl}/items`).then(handleServerResponse);
+  return fetch(`${BASE_URL}/items`).then(handleServerResponse);
 }
 
 function addNewItem({ name, imageUrl, weather }) {
-  return fetch(`${baseUrl}/items`, {
+  return fetch(`${BASE_URL}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +35,7 @@ function likeItem(id, token) {
 }
 
 function deleteItem(id, token) {
-  return fetch(`${baseUrl}/items/${id}`, {
+  return fetch(`${BASE_URL}/items/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

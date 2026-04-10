@@ -35,13 +35,16 @@ function Header({
         </p>
       </div>
       <div className="header_side_right">
-        <ToggleSwitch onToggle={(unit) => console.log("Switched to", unit)} />
-        <button
-          className="header__add-clothes-btn"
-          onClick={handleOpenAddClothingModal}
-        >
-          + Add Clothes
-        </button>
+        <ToggleSwitch />
+        {currentUser && (
+          <button
+            onClick={handleOpenAddClothingModal}
+            type="button"
+            className="header__add-clothes-btn"
+          >
+            + Add Clothes
+          </button>
+        )}
 
         {!currentUser ? (
           <>
