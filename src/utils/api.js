@@ -11,11 +11,12 @@ function getItems() {
   return fetch(`${BASE_URL}/items`).then(handleServerResponse);
 }
 
-function addNewItem({ name, imageUrl, weather }) {
+function addNewItem({ name, imageUrl, weather, token }) {
   return fetch(`${BASE_URL}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       name,

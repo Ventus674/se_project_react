@@ -58,12 +58,10 @@ function App() {
     }
   }
   function handleAddItemSubmit(inputValues, resetForm) {
-    const token = localStorage.getItem("jwt");
-    addNewItem(token)({
+    addNewItem({
       name: inputValues.name,
       imageUrl: inputValues.imageUrl,
       weather: inputValues.weather,
-      Authorization: `Bearer ${token}`,
     })
       .then((newItem) => {
         setClothingItems([newItem, ...clothingItems]);
@@ -149,15 +147,13 @@ function App() {
   const handleRegister = ({ name, avatar, email, password }) => {
     auth
       .register({ name, avatar, email, password })
-      .then(() => {
+      .then((res) => {
+        const userData = {
+          email,
+          password,
+        };
         setIsRegisterOpen(false);
-        return auth.login({ email, password });
-      })
-      .then((data) => {
-        localStorage.setItem("jwt", data.token);
-        setJwt(data.token);
-        setCurrentUser(data.user);
-        setIsLoggedIn(true);
+        handleLogin(userData);
       })
       .catch((err) => {
         console.error("Registration or login failed:", err);
@@ -195,7 +191,6 @@ function App() {
     setIsLoginOpen(false);
     setIsRegisterOpen(true);
   };
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentTempUnitContext.Provider
@@ -224,7 +219,7 @@ function App() {
             <Route
               path="/profile"
               element={
-                <ProtectedRoute loggedIn={!!currentUser}>
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
                   <Profile
                     clothingItems={clothingItems}
                     handleOpenAddClothingModal={handleOpenAddClothingModal}

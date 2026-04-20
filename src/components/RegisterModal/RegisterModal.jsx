@@ -40,7 +40,7 @@ export default function RegisterModal({
       name="register"
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      handleSubmit={handleSubmit}
       buttonText="Sign Up"
       isSubmitDisabled={!isFormValid}
       childrenAfterForm={
