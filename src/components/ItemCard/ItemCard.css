@@ -37,3 +37,30 @@
 .itemCard__image:hover {
   transform: scale(1.03);
 }
+
+.card__image {
+  width: 100%;
+  max-width: 200px;
+  margin-top: 60px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.card__like {
+  width: 18px;
+  height: 15px;
+  border: none;
+  background-image: url("../../assets/heart.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.card__like:hover {
+  background-image: url("../../assets/heart-liked.svg");
+  transform: scale(1.1);
+}
+
+.card__like_active {
+  background-image: url("../../assets/heart-liked.svg");
+}
