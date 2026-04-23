@@ -60,6 +60,8 @@
 
 .header__avatar {
   margin-left: 12px;
+  width: 50px;
+  height: auto;
 }
 
 .header__link {

@@ -7,8 +7,9 @@ function handleServerResponse(res) {
   return Promise.reject(`Error: ${res.status}`);
 }
 
-function getItems() {
-  return fetch(`${BASE_URL}/items`).then(handleServerResponse);
+function getItems(token) {
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  return fetch(`${BASE_URL}/items`, { headers }).then(handleServerResponse);
 }
 
 function addNewItem({ name, imageUrl, weather }, token) {

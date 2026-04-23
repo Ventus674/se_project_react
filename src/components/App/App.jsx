@@ -68,8 +68,7 @@ function App() {
       token,
     )
       .then((newItem) => {
-        console.log(newItem);
-        setClothingItems([newItem, ...clothingItems]);
+        setClothingItems([newItem.data, ...clothingItems]);
         setActiveModal("");
         resetForm();
       })

@@ -22,7 +22,7 @@ function Main({ clothingItems, handleOpenItemModal, weatherData }) {
           return (
             <ItemCard
               key={item._id}
-              data={item}
+              item={item}
               onCardClick={handleOpenItemModal}
             />
           );
