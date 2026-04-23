@@ -11,7 +11,7 @@ function getItems() {
   return fetch(`${BASE_URL}/items`).then(handleServerResponse);
 }
 
-function addNewItem({ name, imageUrl, weather, token }) {
+function addNewItem({ name, imageUrl, weather }, token) {
   return fetch(`${BASE_URL}/items`, {
     method: "POST",
     headers: {

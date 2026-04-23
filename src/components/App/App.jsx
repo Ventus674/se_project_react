@@ -58,12 +58,17 @@ function App() {
     }
   }
   function handleAddItemSubmit(inputValues, resetForm) {
-    addNewItem({
-      name: inputValues.name,
-      imageUrl: inputValues.imageUrl,
-      weather: inputValues.weather,
-    })
+    const token = localStorage.getItem("jwt");
+    addNewItem(
+      {
+        name: inputValues.name,
+        imageUrl: inputValues.imageUrl,
+        weather: inputValues.weather,
+      },
+      token,
+    )
       .then((newItem) => {
+        console.log(newItem);
         setClothingItems([newItem, ...clothingItems]);
         setActiveModal("");
         resetForm();
