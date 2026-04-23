@@ -6,7 +6,6 @@ import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext.js";
 
 function Main({ clothingItems, handleOpenItemModal, weatherData }) {
   const { currentTempUnit } = useContext(CurrentTempUnitContext);
-
   const filteredItems = clothingItems.filter(
     (item) => item.weather.toLowerCase() === weatherData.tempCondition,
   );
@@ -23,7 +22,7 @@ function Main({ clothingItems, handleOpenItemModal, weatherData }) {
           return (
             <ItemCard
               key={item._id}
-              data={item}
+              item={item}
               onCardClick={handleOpenItemModal}
             />
           );

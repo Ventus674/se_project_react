@@ -20,6 +20,7 @@ function Header({
 
   const currentUser = useContext(CurrentUserContext);
 
+  const userInitial = currentUser?.name?.charAt(0).toUpperCase();
   return (
     <header className="header">
       <div className="header_side_left">
