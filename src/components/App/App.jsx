@@ -9,7 +9,7 @@ import { getWeatherData } from "../../utils/weatherApi";
 import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext.js";
 import Profile from "../Profile/Profile.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
-import { addNewItem, getItems, deleteItem } from "../../utils/api.js";
+import { addNewItem, getItems, deleteItem, likeItem } from "../../utils/api.js";
 import DeleteModal from "../DeleteModal/DeleteModal.jsx";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -69,7 +69,7 @@ function App() {
     )
       .then((newItem) => {
         setClothingItems([newItem.data, ...clothingItems]);
-        setActiveModal("");
+        handleCloseModal();
         resetForm();
       })
       .catch(console.error);
@@ -77,11 +77,10 @@ function App() {
 
   const handleCardLike = ({ id, isLiked }) => {
     const token = localStorage.getItem("jwt");
-    const request = !isLiked ? api.likeItem : api.unlikeItem;
 
-    request(id, token)
-      .then((res) => {
-        const updatedCard = res.data;
+    const request = !isLiked ? likeItem(id, token) : removeCardLike(id, token);
+    request
+      .then((updatedCard) => {
         setClothingItems((cards) =>
           cards.map((item) => (item._id === id ? updatedCard : item)),
         );

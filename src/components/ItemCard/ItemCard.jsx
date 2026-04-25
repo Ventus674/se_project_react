@@ -10,13 +10,12 @@ function ItemCard({ item, onCardClick, onCardLike }) {
   );
 
   const handleCardClick = () => {
-    console.log("card clicked");
     onCardClick(item);
   };
 
   const handleLikeClick = (e) => {
     e.stopPropagation();
-    onCardLike({ id: item._id, isLiked });
+    onCardLike(item, isLiked);
   };
 
   return (
@@ -28,6 +27,7 @@ function ItemCard({ item, onCardClick, onCardLike }) {
             className={`card__like ${isLiked ? "card__like_active" : ""}`}
             type="button"
             onClick={handleLikeClick}
+            aria-label={isLiked ? "Unlike item" : "Like item"}
           />
         )}
       </div>

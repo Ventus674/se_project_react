@@ -36,6 +36,17 @@ function likeItem(id, token) {
   }).then(handleServerResponse);
 }
 
+function removeCardLike(id, token) {
+  return request(`${baseUrl}/items/${id}/likes`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  }).then(handleServerResponse);
+}
+
 function deleteItem(id, token) {
   return fetch(`${BASE_URL}/items/${id}`, {
     method: "DELETE",
