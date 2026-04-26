@@ -38,7 +38,7 @@ export default function RegisterModal({
           className="modal__input"
           required
           value={values.email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleChange}
         />
       </label>
       <label className="modal__label">
@@ -50,7 +50,7 @@ export default function RegisterModal({
           required
           minLength="6"
           value={values.password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
         />
       </label>
       <label className="modal__label">
@@ -63,7 +63,7 @@ export default function RegisterModal({
           maxLength="30"
           placeholder="Name"
           value={values.name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={handleChange}
         />
       </label>
       <label className="modal__label">
@@ -74,7 +74,7 @@ export default function RegisterModal({
           placeholder="Avatar URL"
           required
           value={values.avatarUrl}
-          onChange={(e) => setAvatarUrl(e.target.value)}
+          onChange={handleChange}
         />
       </label>
       <button
