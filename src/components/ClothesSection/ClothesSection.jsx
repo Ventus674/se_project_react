@@ -7,6 +7,7 @@ function ClothesSection({
   clothingItems,
   handleOpenAddClothingModal,
   onCardClick,
+  onCardLike,
 }) {
   const currentUser = useContext(CurrentUserContext);
 
@@ -28,7 +29,12 @@ function ClothesSection({
       <ul className="clothes-section__itemcard-list">
         {userItems.map((item) => {
           return (
-            <ItemCard key={item._id} item={item} onCardClick={onCardClick} />
+            <ItemCard
+              key={item._id}
+              item={item}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+            />
           );
         })}
       </ul>

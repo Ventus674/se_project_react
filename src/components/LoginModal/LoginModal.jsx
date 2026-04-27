@@ -38,23 +38,24 @@ export default function LoginModal({
       <label className="modal__label">
         Email
         <input
+          name="email"
           type="email"
           className="modal__input"
           required
           value={values.email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          onChange={handleChange}
         />
       </label>
       <label className="modal__label">
         Password
         <input
+          name="password"
           type="password"
           className="modal__input"
           required
           minLength="6"
           value={values.password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
           placeholder="Password"
         />
       </label>

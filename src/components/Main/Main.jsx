@@ -4,7 +4,7 @@ import ItemCard from "../ItemCard/ItemCard";
 import { useContext } from "react";
 import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext.js";
 
-function Main({ clothingItems, handleOpenItemModal, weatherData }) {
+function Main({ clothingItems, handleOpenItemModal, weatherData, onCardLike }) {
   const { currentTempUnit } = useContext(CurrentTempUnitContext);
   const filteredItems = clothingItems.filter(
     (item) => item.weather.toLowerCase() === weatherData.tempCondition,
@@ -24,6 +24,7 @@ function Main({ clothingItems, handleOpenItemModal, weatherData }) {
               key={item._id}
               item={item}
               onCardClick={handleOpenItemModal}
+              onCardLike={onCardLike}
             />
           );
         })}
