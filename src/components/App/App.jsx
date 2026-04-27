@@ -75,14 +75,16 @@ function App() {
       .catch(console.error);
   }
 
-  const handleCardLike = ({ id, isLiked }) => {
+  const handleCardLike = ({ _id, isLiked }) => {
     const token = localStorage.getItem("jwt");
 
-    const request = !isLiked ? likeItem(id, token) : removeCardLike(id, token);
+    const request = !isLiked
+      ? likeItem(_id, token)
+      : removeCardLike(_id, token);
     request
       .then((updatedCard) => {
         setClothingItems((cards) =>
-          cards.map((item) => (item._id === id ? updatedCard : item)),
+          cards.map((item) => (item._id === _id ? updatedCard.data : item)),
         );
       })
       .catch((err) => console.log("Like/Unlike failed:", err));
