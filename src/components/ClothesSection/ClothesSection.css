@@ -16,6 +16,12 @@
   margin-right: 20px;
 }
 
+.clothes-section__items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
 .clothes-section__add-btn {
   border: none;
   font-family:

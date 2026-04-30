@@ -9,7 +9,13 @@ import { getWeatherData } from "../../utils/weatherApi";
 import CurrentTempUnitContext from "../../contexts/CurrentTempUnitContext.js";
 import Profile from "../Profile/Profile.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
-import { addNewItem, getItems, deleteItem, likeItem } from "../../utils/api.js";
+import {
+  addNewItem,
+  getItems,
+  deleteItem,
+  likeItem,
+  removeCardLike,
+} from "../../utils/api.js";
 import DeleteModal from "../DeleteModal/DeleteModal.jsx";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -75,7 +81,7 @@ function App() {
       .catch(console.error);
   }
 
-  const handleCardLike = ({ _id, isLiked }) => {
+  const handleCardLike = ({ _id }, isLiked) => {
     const token = localStorage.getItem("jwt");
 
     const request = !isLiked
