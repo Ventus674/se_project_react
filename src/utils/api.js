@@ -37,7 +37,7 @@ function likeItem(id, token) {
 }
 
 function removeCardLike(id, token) {
-  return request(`${baseUrl}/items/${id}/likes`, {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -57,4 +57,11 @@ function deleteItem(id, token) {
   }).then(handleServerResponse);
 }
 
-export { getItems, addNewItem, deleteItem, handleServerResponse, likeItem };
+export {
+  getItems,
+  addNewItem,
+  deleteItem,
+  handleServerResponse,
+  likeItem,
+  removeCardLike,
+};

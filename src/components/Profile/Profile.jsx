@@ -7,10 +7,20 @@ function Profile({
   handleOpenAddClothingModal,
   handleOpenItemModal,
   onCardLike,
+  onLogout,
 }) {
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditProfileOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsEditProfileOpen(false);
+  };
   return (
     <div className="profile">
-      <Sidebar />
+      <Sidebar onEditProfile={handleEditClick} onLogout={onLogout} />
       <ClothesSection
         onCardClick={handleOpenItemModal}
         clothingItems={clothingItems}
