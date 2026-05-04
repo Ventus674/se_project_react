@@ -44,6 +44,7 @@ function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const handleEditProfileClick = () => setActiveModal("edit-profile");
 
   function handleOpenAddClothingModal() {
     setActiveModal("add-clothing-modal");
@@ -237,6 +238,7 @@ function App() {
                     handleOpenItemModal={handleOpenItemModal}
                     onCardLike={handleCardLike}
                     onLogout={handleLogout}
+                    onEditProfile={handleEditProfileClick}
                   />
                 </ProtectedRoute>
               }

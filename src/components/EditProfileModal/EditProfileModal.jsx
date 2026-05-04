@@ -6,7 +6,9 @@ import { useForm } from "../../hooks/useForm";
 
 function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
-  const { values, handleChange } = useForm({
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const { values, setValues } = useForm({
     name: "",
     avatar: "",
   });

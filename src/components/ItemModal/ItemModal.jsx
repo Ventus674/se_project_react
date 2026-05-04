@@ -1,10 +1,18 @@
 import "./ItemModal.css";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { useContext } from "react";
 
-function ItemCardModal({ isOpen, card, onClose, handleOpenDeleteModal }) {
+function ItemCardModal({ isOpen, card, onClose, onCardDelete }) {
   if (!card) return null;
 
-  const { currentUser } = useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
+
+  const isLoggedIn = !!currentUser;
+  const isOwn = isLoggedIn && card.owner === currentUser._id;
+
+  const itemDeleteButtonClassName = `modal__delete-button ${
+    isOwn ? "" : "modal__delete-button_hidden"
+  }`;
 
   return (
     <div className={`modal ${isOpen ? "modal_is-opened" : ""}`}>
@@ -18,13 +26,12 @@ function ItemCardModal({ isOpen, card, onClose, handleOpenDeleteModal }) {
         <div>
           <div className="modal__description">
             <h2 className="modal__text">{card.name}</h2>
-            {currentUser && (
+            {isOwn && (
               <button
-                type="button"
-                className="modal__open-delete-btn"
-                onClick={() => handleOpenDeleteModal(card)}
+                className={itemDeleteButtonClassName}
+                onClick={() => onCardDelete(card)}
               >
-                Delete Item
+                Delete item
               </button>
             )}
           </div>
