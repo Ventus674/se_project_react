@@ -112,6 +112,10 @@ function App() {
       .catch(console.error);
   }
 
+  function handleEditProfileOpen() {
+    setIsEditProfileOpen(true);
+  }
+
   useEffect(() => {
     getWeatherData()
       .then((data) => {
@@ -238,7 +242,7 @@ function App() {
                     handleOpenItemModal={handleOpenItemModal}
                     onCardLike={handleCardLike}
                     onLogout={handleLogout}
-                    onEditProfile={handleEditProfileClick}
+                    handleEditProfileOpen={handleEditProfileOpen}
                   />
                 </ProtectedRoute>
               }
@@ -251,7 +255,7 @@ function App() {
             isOpen={activeModal === "itemCard-modal"}
             onClose={handleCloseModal}
             card={selectedCard}
-            handleOpenDeleteModal={handleOpenDeleteModal}
+            onCardDelete={handleOpenDeleteModal}
           />
           <AddItemModal
             isOpen={activeModal === "add-clothing-modal"}

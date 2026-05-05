@@ -6,8 +6,6 @@ import { useForm } from "../../hooks/useForm";
 
 function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
   const { values, setValues } = useForm({
     name: "",
     avatar: "",
@@ -19,11 +17,11 @@ function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
     }
   }, [currentUser, isOpen]);
 
-  const isFormValid = name.trim() !== "" && avatar.trim() !== "";
+  const isFormValid = values.name.trim() !== "" && values.avatar.trim() !== "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdateUser({ values });
+    onUpdateUser(values);
   };
 
   return (
@@ -41,7 +39,7 @@ function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
         <input
           type="text"
           value={values.name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setValues({ ...values, name: e.target.value })}
           className="modal__input"
           placeholder="Name"
           required
@@ -52,7 +50,7 @@ function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
         <input
           type="url"
           value={values.avatar}
-          onChange={(e) => setAvatar(e.target.value)}
+          onChange={(e) => setValues({ ...values, avatar: e.target.value })}
           className="modal__input"
           placeholder="Avatar URL"
           required

@@ -16,23 +16,16 @@ function Profile({
   onEditProfile,
   handleCloseModal,
   isEditProfileOpen,
+  handleEditProfileOpen,
 }) {
   return (
     <div className="profile">
-      <Sidebar onEditProfile={onEditProfile} onLogout={onLogout} />
+      <Sidebar onEditProfile={handleEditProfileOpen} onLogout={onLogout} />
       <ClothesSection
         onCardClick={handleOpenItemModal}
         clothingItems={clothingItems}
         handleOpenAddClothingModal={handleOpenAddClothingModal}
         onCardLike={onCardLike}
-      />
-      <EditProfileModal
-        isOpen={isEditProfileOpen}
-        onClose={handleCloseModal}
-        onUpdateUser={(data) => {
-          onUpdateUser(data);
-          handleCloseModal();
-        }}
       />
     </div>
   );
