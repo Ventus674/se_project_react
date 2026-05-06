@@ -30,7 +30,7 @@ function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
       name="edit-profile"
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      handleSubmit={handleSubmit}
       buttonText="Save changes"
       isSubmitDisabled={!isFormValid}
     >
