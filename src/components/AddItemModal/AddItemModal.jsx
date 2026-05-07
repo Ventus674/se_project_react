@@ -5,7 +5,7 @@ import { useForm } from "../../hooks/useForm";
 function AddItemModal({ isOpen, onClose, handleAddItemSubmit }) {
   const { values, handleChange, resetForm } = useForm({
     name: "",
-    weather: "hot",
+    weather: "",
     imageUrl: "",
   });
 

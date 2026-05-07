@@ -53,7 +53,6 @@ export default function LoginModal({
           type="password"
           className="modal__input"
           required
-          minLength="6"
           value={values.password}
           onChange={handleChange}
           placeholder="Password"
