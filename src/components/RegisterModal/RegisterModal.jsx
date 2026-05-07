@@ -33,6 +33,7 @@ export default function RegisterModal({
       <label className="modal__label">
         Email
         <input
+          name="email"
           type="email"
           placeholder="Email"
           className="modal__input"
@@ -44,6 +45,7 @@ export default function RegisterModal({
       <label className="modal__label">
         Password
         <input
+          name="password"
           type="password"
           placeholder="Password"
           className="modal__input"

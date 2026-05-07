@@ -137,6 +137,7 @@ function App() {
       .editUser({ name, avatar }, jwt)
       .then((updatedUser) => {
         setCurrentUser(updatedUser);
+        handleCloseModal();
       })
       .catch((err) => {
         console.error("Profile update failed:", err);

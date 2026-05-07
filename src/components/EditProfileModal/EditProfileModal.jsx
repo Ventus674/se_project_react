@@ -13,7 +13,7 @@ function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
 
   useEffect(() => {
     if (currentUser && isOpen) {
-      setValues({ name: "", avatar: "" });
+      setValues({ name: currentUser.name, avatar: currentUser.avatar });
     }
   }, [currentUser, isOpen]);
 
