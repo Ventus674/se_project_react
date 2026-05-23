@@ -50,7 +50,6 @@ export default function RegisterModal({
           placeholder="Password"
           className="modal__input"
           required
-          minLength="6"
           value={values.password}
           onChange={handleChange}
         />

@@ -5,7 +5,7 @@ const coordinates = {
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://api.CaliberWTWR.minecraftnoob.com"
+    ? "	api.wtwr.fivepals.com"
     : "http://localhost:3001";
 
 const APIkey = "9a47480666c6576602cbe5c7243a37e4";
